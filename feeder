@@ -1,0 +1,126 @@
+
+// for blynk
+#define BLYNK_TEMPLATE_ID "TMPL6-kTjpHlS"
+#define BLYNK_TEMPLATE_NAME "AquaEasy Monitoring"
+#define BLYNK_AUTH_TOKEN "n_nR6fFi1MIEU5bvtcOj1VEqK8qsqaDg"
+
+#define BLYNK_PRINT Serial
+
+//install libraries
+#include <WiFi.h>
+#include <WiFiClient.h>
+#include <BlynkSimpleEsp32.h>
+#include <TimeLib.h>
+#include <WidgetRTC.h>
+#include <ESP32Servo.h>
+
+// Distinguish RTC
+BlynkTimer timer;
+
+WidgetRTC rtc;
+
+// Set time feeder
+const int oneHour = 19;
+const int oneMin = 21;
+const int oneSec = 0;
+
+const int twoHour = 19;
+const int twoMin = 22;
+const int twoSec = 0;
+
+const int threeHour = 19;
+const int threeMin = 23;
+const int threeSec = 0;
+
+// Variables for servo motor
+int pos = 180;
+int servoPin = 9;
+
+// Distinguish servo motor name
+Servo servomotor;
+
+char auth[] = BLYNK_AUTH_TOKEN;
+char ssid[] = "TP-Link_Extender";  // type your wifi name
+char pass[] = "";  // type your wifi password
+
+BLYNK_CONNECTED() {
+  // Synchronize time on connection
+  rtc.begin();
+}
+
+void setup() {
+  Serial.begin(115200);
+
+  setSyncInterval(10 * 60); // Sync interval in seconds (10 minutes)
+
+  // Display digital clock every 10 seconds
+  timer.setInterval(10000L, clockDisplay);
+
+  servomotor.attach(servoPin);
+  // Initialize the rtc object
+
+}
+
+void clockDisplay()
+{
+
+  String currentTime = String(hour()) + ":" + minute() + ":" + second();
+  String currentDate = String(day()) + " " + month() + " " + year();
+  Serial.print("Current time: ");
+  Serial.print(currentTime);
+  Serial.print(" ");
+  Serial.print(currentDate);
+  Serial.println();
+
+  // Send time to the App
+  Blynk.virtualWrite(V1, currentTime);
+  // Send date to the App
+  Blynk.virtualWrite(V2, currentDate);
+}
+
+void feeder(){
+
+  // Loop for servo motor
+  if (hour() == oneHour && minute() == oneMin && second() == oneSec) {
+    for (pos = 180; pos >= 0; pos = pos - 10) {
+      servomotor.write(pos);
+      delay(100);
+    }
+
+    for (pos = 0; pos <= 180; pos = pos + 1) {
+      servomotor.write(pos);
+    }
+  }
+  if (hour() == twoHour && minute() == twoMin && second() == twoSec) {
+    for (pos = 180; pos >= 0; pos = pos - 10) {
+      servomotor.write(pos);
+      delay(100);
+    }
+
+    for (pos = 0; pos <= 180; pos = pos + 1) {
+      servomotor.write(pos);
+    }
+  }
+
+  if (hour() == threeHour && minute() == threeMin && second() == threeSec) {
+    for (pos = 180; pos >= 0; pos = pos - 10) {
+      servomotor.write(pos);
+      delay(100);
+    }
+
+    for (pos = 0; pos <= 180; pos = pos + 5) {
+      servomotor.write(pos);
+    }
+  }
+}
+
+void loop(){
+  
+  Blynk.run();
+  timer.run();
+  
+  feeder();
+  delay(1000);
+}
+
+
