@@ -49,7 +49,7 @@ String bridge_token_1 = "hleI-MTUdjZQOGpFs3WLWRWjc-V1u8QI"; // token for the rec
 #define READ_TEMP (25) //Current water temperature ℃, Or temperature sensor function
 
 //Single point calibration needs to be filled CAL1_V and CAL1_T
-#define CAL1_V (149) //mv
+#define CAL1_V (230) //mv
 #define CAL1_T (25)   //℃
 //Two-point calibration needs to be filled CAL2_V and CAL2_T
 //CAL1 High temperature point, CAL2 Low temperature point
@@ -214,7 +214,7 @@ void setup() {
 
   Blynk.begin(auth, ssid, pass);
 
-  timer.setInterval(5000L, push_some_data);
+  timer.setInterval(10000L, push_some_data);
 
   timer.setInterval(20000L, runAerator);
 }
