@@ -91,7 +91,7 @@ unsigned long startTime = 0;  // Variable to store the start time when the value
 
 float DOValue;
 
-MovingAverageFilter movingAverageFilter(20); // Adjust the filter size as needed
+MovingAverageFilter movingAverageFilter(40); // Adjust the filter size as needed
 
 // Blynk virtual pin handler for the button widget
 // Blynk virtual pin handler for the button widget
@@ -197,7 +197,7 @@ void runAerator(){
 void setup() {
   Serial.begin(115200);
 
-  movingAverageFilter = MovingAverageFilter(30); // Adjust the filter size as needed
+  movingAverageFilter = MovingAverageFilter(40); // Adjust the filter size as needed
 
   //TDS setup
   //gravityTds.setPin(TdsSensorPin);
