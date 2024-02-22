@@ -185,10 +185,10 @@ void setup() {
   Blynk.begin(auth, ssid, pass);
 
   //SET TIMEER INTERVAL FOR EACH FUNCTION EX.1000L
-  timer.setInterval(5000L, sendPH);
-  timer.setInterval(3000L, sendWaterLevel);
-  timer.setInterval(5000L, ControlWaterLevel);
-  timer.setInterval(5000L, sendTemp);
+  timer.setInterval(10000L, sendPH);
+  timer.setInterval(10000L, sendWaterLevel);
+  timer.setInterval(10000L, ControlWaterLevel);
+  timer.setInterval(10000L, sendTemp);
   timer.setInterval(10000L, printSali);
 }
 
